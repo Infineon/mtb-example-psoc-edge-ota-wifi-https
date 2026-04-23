@@ -6,7 +6,7 @@
 * Related Document : See README.md
 *
 *******************************************************************************
-* (c) 2024-2025, Infineon Technologies AG, or an affiliate of Infineon
+* (c) 2024-2026, Infineon Technologies AG, or an affiliate of Infineon
 * Technologies AG. All rights reserved.
 * This software, associated documentation and materials ("Software") is
 * owned by Infineon Technologies AG or one of its affiliates ("Infineon")
@@ -17,7 +17,7 @@
 * agreement applies, then any use, reproduction, modification, translation, or
 * compilation of this Software is prohibited without the express written
 * permission of Infineon.
-* 
+*
 * Disclaimer: UNLESS OTHERWISE EXPRESSLY AGREED WITH INFINEON, THIS SOFTWARE
 * IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 * INCLUDING, BUT NOT LIMITED TO, ALL WARRANTIES OF NON-INFRINGEMENT OF
@@ -39,6 +39,7 @@
 * Header Files
 *******************************************************************************/
 #include "cybsp.h"
+#include "retarget_io_init.h"
 
 /* FreeRTOS header file */
 #include "FreeRTOS.h"
@@ -97,6 +98,27 @@ cy_ota_storage_interface_t ota_interfaces =
 };
 
 
+#if (CY_CFG_PWR_SYS_IDLE_MODE == CY_CFG_PWR_MODE_DEEPSLEEP)
+
+/* SysPm callback parameter structure for SDHC */
+static cy_stc_syspm_callback_params_t sdcardDSParams =
+{
+    .context   = &sdhc_host_context,
+    .base      = CYBSP_WIFI_SDIO_HW
+};
+
+/* SysPm callback structure for SDHC*/
+static cy_stc_syspm_callback_t sdhcDeepSleepCallbackHandler =
+{
+    .callback           = Cy_SD_Host_DeepSleepCallback,
+    .skipMode           = SYSPM_SKIP_MODE,
+    .type               = CY_SYSPM_DEEPSLEEP,
+    .callbackParams     = &sdcardDSParams,
+    .prevItm            = NULL,
+    .nextItm            = NULL,
+    .order              = SYSPM_CALLBACK_ORDER
+};
+#endif
 
 /*******************************************************************************
 * Function Prototypes
@@ -616,6 +638,11 @@ void app_sdio_init(void)
 
     /* Configure SDIO */
     mtb_hal_sdio_configure(&sdio_instance, &hal_cfg);
+
+#if (CY_CFG_PWR_SYS_IDLE_MODE == CY_CFG_PWR_MODE_DEEPSLEEP)
+    /* SDHC SysPm callback registration */
+    Cy_SysPm_RegisterCallback(&sdhcDeepSleepCallbackHandler);
+#endif /* (CY_CFG_PWR_SYS_IDLE_MODE == CY_CFG_PWR_MODE_DEEPSLEEP) */
 
     /* Setup GPIO using the HAL object for WIFI WL REG ON  */
     mtb_hal_gpio_setup(&wifi_config.wifi_wl_pin, CYBSP_WIFI_WL_REG_ON_PORT_NUM, CYBSP_WIFI_WL_REG_ON_PIN);
