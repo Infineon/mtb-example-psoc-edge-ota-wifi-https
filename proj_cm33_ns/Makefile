@@ -85,8 +85,10 @@ INCLUDES=
 #MbedTLS config file
 MBEDTLSFLAGS = MBEDTLS_USER_CONFIG_FILE='"configs/mbedtls_user_config.h"'
 DEFINES+=$(MBEDTLSFLAGS)
-DEFINES+=MBEDTLS_CONFIG_FILE='"configs/mbedtls_config.h"'
-DEFINES+=MBEDTLS_PSA_CRYPTO_CONFIG_FILE='"configs/ifx_psa_crypto_config.h"'
+# TF-PSA-Crypto (PSA Crypto API) configuration, required by mbedtls 4.x.
+DEFINES+=IFX_TF_PSA IFX_TF_PSA_CRYPTO
+DEFINES+=TF_PSA_CRYPTO_CONFIG_FILE='"configs/tf_psa_crypto_config.h"'
+DEFINES+=TF_PSA_CRYPTO_USER_CONFIG_FILE='"configs/tf_psa_crypto_user_config.h"'
 
 # WiFi capability
 DEFINES+=CYBSP_WIFI_CAPABLE

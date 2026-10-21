@@ -15,7 +15,7 @@ See the [Design and implementation](docs/design_and_implementation.md) for the f
 
 ## Requirements
 
-- [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) v3.7 or later (tested with v3.7)
+- [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) v3.7 or later (tested with v3.9)
 - Board support package (BSP) minimum required version: 1.0.0
 - Programming language: C
 - Associated parts: All [PSOC&trade; Edge MCU](https://www.infineon.com/products/microcontroller/32-bit-psoc-arm-cortex/32-bit-psoc-edge-arm) parts
@@ -26,8 +26,8 @@ See the [Design and implementation](docs/design_and_implementation.md) for the f
 
 - GNU Arm&reg; Embedded Compiler v14.2.1 (`GCC_ARM`) – Default value of `TOOLCHAIN`
 - Arm&reg; Compiler v6.22 (`ARM`)
-- IAR C/C++ Compiler v9.50.2 (`IAR`)
-- LLVM Embedded Toolchain for Arm&reg; v19.1.5 (`LLVM_ARM`)
+- IAR C/C++ Compiler v9.70.4 (`IAR`)
+- Arm&reg; Toolchain for Embedded v22.1 (`LLVM_ARM`)
 
 
 ## Supported kits (make variable 'TARGET')
@@ -394,6 +394,7 @@ Document title: *CE240028* – *PSOC&trade; Edge MCU: OTA Wi-Fi HTTPS*
  1.x.0   | New code example <br> Early access release
  2.0.0   | GitHub release
  2.1.0   | Added WIFI SDIO DeepSleep Callback <br> Updated design files to fix ModusToolbox™ v3.7 build warnings
+ 2.2.0   | Updated to support wifi-core-freertos-lwip-mbedtls v4.X
 <br>
 
 
